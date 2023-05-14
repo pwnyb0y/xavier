@@ -1,0 +1,41 @@
+# Compile output
+*.out
+*.obj
+*.lib
+*.dll
+*.a
+
+# Generated files
+*.pb.go
+*.pb.gw.go
+*.pb.gw.c
+*.pb.c
+*.pb.h
+
+# Buf build
+.buf
+.buf.lock
+
+# Golang test files
+*.test
+*.test.*
+
+# Golang coverage files
+*.cover
+*.coverprofile
+
+# Golang vendor directory
+vendor
+
+# JetBrains IDEs
+.idea/*
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Gitignored by default
+.gitignore
