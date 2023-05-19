@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
-	"google.golang.org/grpc/credentials/insecure"
 	"log"
 
-	pb "github.com/pwnyb0y/xavier/gen/go/proto/xavier/v1/openai"
+	"google.golang.org/grpc/credentials/insecure"
+
+	pb "github.com/zencodinglab/xavier/gen/go/proto/xavier/v1/openai"
 	"google.golang.org/grpc"
 )
 

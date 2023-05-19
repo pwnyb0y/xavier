@@ -1,4 +1,4 @@
-module github.com/pwnyb0y/xavier
+module github.com/zencodinglab/xavier
 
 go 1.20
 

@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	pb "github.com/pwnyb0y/xavier/gen/go/proto/xavier/v1/openai"
+	pb "github.com/zencodinglab/xavier/gen/go/proto/xavier/v1/openai"
 )
 
 // OpenAIServiceServer is a server for the OpenAI service.

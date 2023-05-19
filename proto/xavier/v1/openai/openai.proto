@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package xavier.v1.openai;
 
-option go_package = "github.com/pwnyb0y/xavier/gen/go/proto/xavier/v1/openai";
+option go_package = "github.com/zencodinglab/xavier/gen/go/proto/xavier/v1/openai";
 
 service OpenAI {
   rpc GetModels (GetModelsRequest) returns (GetModelsResponse);

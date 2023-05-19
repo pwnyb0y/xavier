@@ -6,7 +6,8 @@ Xavier is a gRPC service designed to interact with various OpenAI models. It is 
 
 ## Repository Owner
 
-[pwnyb0y](https://github.com/pwnyb0y)
+[jonmarc](https://github.com/pwnyb0y)
+[dr. kyle](https://github.com/dfkfmorton)
 
 ## Features
 
@@ -36,4 +37,4 @@ Contributions are what make the open source community such an amazing place to l
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-Project Link: [https://github.com/pwnyb0y/xavier](https://github.com/pwnyb0y/xavier)
+Project Link: [https://github.com/zencodinglab/xavier](https://github.com/zencodinglab/xavier)
