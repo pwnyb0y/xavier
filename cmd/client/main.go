@@ -5,12 +5,12 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
 
-	pb "github.com/pwnyb0y/xavier/gen/go/proto/xavier/v1"
+	pb "github.com/pwnyb0y/xavier/gen/go/proto/xavier/v1/openai"
 	"google.golang.org/grpc"
 )
 
 func main() {
-	// Set up a connection to the Xavier server.
+	// Set up a connection to the OpenAI server.
 	conn, err := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("failed to connect: %v", err)
@@ -21,8 +21,8 @@ func main() {
 		}
 	}()
 
-	// Create a new Xavier client.
-	client := pb.NewXavierClient(conn)
+	// Create a new OpenAI client.
+	client := pb.NewOpenAIClient(conn)
 
 	// Call the GetModels method.
 	response, err := client.GetModels(context.Background(), &pb.GetModelsRequest{})
