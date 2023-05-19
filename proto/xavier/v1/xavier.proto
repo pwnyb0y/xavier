@@ -16,9 +16,12 @@ message GetModelsResponse {
 
 message Model {
   string id = 1;
-  repeated Permission permissions = 2;
-  string root = 3;
-  string parent = 4;
+  string object = 2;
+  int64 created = 3;
+  string owned_by = 4;
+  repeated Permission permissions = 5;
+  string root = 6;
+  string parent = 7;
 }
 
 message Permission {

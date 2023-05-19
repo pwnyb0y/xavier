@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"google.golang.org/grpc/credentials/insecure"
 	"log"
 
 	pb "github.com/pwnyb0y/xavier/gen/go/proto/xavier/v1"
@@ -10,11 +11,15 @@ import (
 
 func main() {
 	// Set up a connection to the Xavier server.
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("failed to connect: %v", err)
 	}
-	defer conn.Close()
+	defer func() {
+		if err := conn.Close(); err != nil {
+			log.Fatalf("failed to close connection: %v", err)
+		}
+	}()
 
 	// Create a new Xavier client.
 	client := pb.NewXavierClient(conn)
@@ -27,6 +32,6 @@ func main() {
 
 	// Process the response.
 	for _, model := range response.Models {
-		log.Printf("Model ID: %s, Model Name: %s", model.Id)
+		log.Printf("Model ID: %s", model.Id)
 	}
 }
