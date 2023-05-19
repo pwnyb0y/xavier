@@ -2,7 +2,7 @@
 
 ## Overview
 
-Xavier is a gRPC service designed to interact with various OpenAI models. It is capable of performing tasks such as generating text, code, images, browsing the web, and much more. It's designed to be scalable, robust, and easy to use, adhering to the principles of clean code and best practices in Golang.
+Xavier is a gRPC service designed to interact with various OpenAI models. It is capable of performing tasks such as generating text, code, images, browsing the web, and much more.
 
 ## Repository Owner
 

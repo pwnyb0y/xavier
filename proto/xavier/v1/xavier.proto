@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package xavier.v1;
+
+option go_package = "github.com/pwnyb0y/xavier/gen/go/xavier/v1";
+
+service Xavier {
+  rpc GetModels (GetModelsRequest) returns (GetModelsResponse);
+}
+
+message GetModelsRequest {}
+
+message GetModelsResponse {
+  repeated Model models = 1;
+}
+
+message Model {
+  string id = 1;
+  string name = 2;
+}
