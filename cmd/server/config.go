@@ -12,6 +12,6 @@ type Config struct {
 // LoadConfig loads the application configuration from environment variables.
 func LoadConfig() *Config {
 	return &Config{
-		OpenAIKey: os.Getenv("OPENAI_KEY"),
+		OpenAIKey: os.Getenv("OPENAI_API_KEY"),
 	}
 }

@@ -16,5 +16,14 @@ message GetModelsResponse {
 
 message Model {
   string id = 1;
-  string name = 2;
+  repeated Permission permissions = 2;
+}
+
+message Permission {
+  bool allow_create_engine = 1;
+  bool allow_sampling = 2;
+  bool allow_logprobs = 3;
+  bool allow_search_indices = 4;
+  bool allow_view = 5;
+  bool allow_fine_tuning = 6;
 }

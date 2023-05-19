@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	pb "github.com/pwnyb0y/xavier/gen/go/proto/xavier/v1"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -34,26 +35,41 @@ func (s *XavierServiceServer) GetModels(ctx context.Context, req *pb.GetModelsRe
 
 	resp, err := client.Do(httpReq)
 	if err != nil {
+		log.Printf("failed to make request to OpenAI API: %v", err)
 		return nil, err
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
+		log.Printf("failed to read response body: %v", err)
 		return nil, err
 	}
 
-	var openAIResponse OpenAIModelsResponse
-	err = json.Unmarshal(body, &openAIResponse)
-	if err != nil {
-		return nil, err
-	}
+	log.Printf("response body: %s", body)
 
 	var models []*pb.Model
-	for _, model := range openAIResponse.Models {
+	err = json.Unmarshal(body, &models)
+	if err != nil {
+		log.Printf("failed to unmarshal response body: %v", err)
+		return nil, err
+	}
+
+	for _, model := range models {
+		var permissions []*pb.Permission
+		for _, perm := range model.Permissions {
+			permissions = append(permissions, &pb.Permission{
+				AllowCreateEngine:  perm.AllowCreateEngine,
+				AllowSampling:      perm.AllowSampling,
+				AllowLogprobs:      perm.AllowLogprobs,
+				AllowSearchIndices: perm.AllowSearchIndices,
+				AllowView:          perm.AllowView,
+				AllowFineTuning:    perm.AllowFineTuning,
+			})
+		}
 		models = append(models, &pb.Model{
-			Id:   model.ID,
-			Name: model.Name,
+			Id:          model.Id,
+			Permissions: permissions,
 		})
 	}
 
