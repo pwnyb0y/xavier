@@ -17,13 +17,21 @@ message GetModelsResponse {
 message Model {
   string id = 1;
   repeated Permission permissions = 2;
+  string root = 3;
+  string parent = 4;
 }
 
 message Permission {
-  bool allow_create_engine = 1;
-  bool allow_sampling = 2;
-  bool allow_logprobs = 3;
-  bool allow_search_indices = 4;
-  bool allow_view = 5;
-  bool allow_fine_tuning = 6;
+  string id = 1;
+  string object = 2;
+  int64 created = 3;
+  bool allow_create_engine = 4;
+  bool allow_sampling = 5;
+  bool allow_logprobs = 6;
+  bool allow_search_indices = 7;
+  bool allow_view = 8;
+  bool allow_fine_tuning = 9;
+  string organization = 10;
+  string group = 11;
+  bool is_blocking = 12;
 }

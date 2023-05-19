@@ -24,6 +24,12 @@
 *.cover
 *.coverprofile
 
+# Ignore binary files
+/bin/
+
+# Ignore other generated files
+/gen/
+
 # Golang vendor directory
 vendor
 
