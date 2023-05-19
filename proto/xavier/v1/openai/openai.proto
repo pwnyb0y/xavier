@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package xavier.v1.openai;
+
+option go_package = "github.com/pwnyb0y/xavier/gen/go/proto/xavier/v1/openai";
+
+service OpenAI {
+  rpc GetModels (GetModelsRequest) returns (GetModelsResponse);
+}
+
+message GetModelsRequest {}
+
+message GetModelsResponse {
+  repeated Model models = 1;
+}
+
+message Model {
+  string id = 1;
+  string object = 2;
+  int64 created = 3;
+  string owned_by = 4;
+  repeated Permission permissions = 5;
+  string root = 6;
+  string parent = 7;
+}
+
+message Permission {
+  string id = 1;
+  string object = 2;
+  int64 created = 3;
+  bool allow_create_engine = 4;
+  bool allow_sampling = 5;
+  bool allow_logprobs = 6;
+  bool allow_search_indices = 7;
+  bool allow_view = 8;
+  bool allow_fine_tuning = 9;
+  string organization = 10;
+  string group = 11;
+  bool is_blocking = 12;
+}

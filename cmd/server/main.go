@@ -1,10 +1,11 @@
 package main
 
 import (
+	"github.com/pwnyb0y/xavier/cmd/server/openai"
 	"log"
 	"net"
 
-	pb "github.com/pwnyb0y/xavier/gen/go/proto/xavier/v1"
+	pb "github.com/pwnyb0y/xavier/gen/go/proto/xavier/v1/openai"
 	"google.golang.org/grpc"
 )
 
@@ -19,8 +20,8 @@ func main() {
 	log.Println("Successfully started listening on localhost:50051")
 
 	s := grpc.NewServer()
-	server := &XavierServiceServer{}
-	pb.RegisterXavierServer(s, server)
+	server := &openai.OpenAIServiceServer{}
+	pb.RegisterOpenAIServer(s, server)
 
 	log.Println("Xavier server registered, ready to serve requests")
 
