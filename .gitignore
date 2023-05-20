@@ -5,6 +5,12 @@
 *.dll
 *.a
 
+# OS generated files
+.DS_Store
+ehthumbs.db
+Thumbs.db
+
+
 # Generated files
 *.pb.go
 *.pb.gw.go
