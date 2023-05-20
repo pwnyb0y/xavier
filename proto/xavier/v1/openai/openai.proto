@@ -6,6 +6,7 @@ option go_package = "github.com/zencodinglab/xavier/gen/go/proto/xavier/v1/opena
 
 service OpenAI {
   rpc GetModels (GetModelsRequest) returns (GetModelsResponse);
+  rpc Gpt4Completion (Gpt4CompletionRequest) returns (Gpt4CompletionResponse);
 }
 
 message GetModelsRequest {}
@@ -37,4 +38,32 @@ message Permission {
   string organization = 10;
   string group = 11;
   bool is_blocking = 12;
+}
+
+message Gpt4CompletionRequest {
+  string model = 1;
+  string prompt = 2;
+  int32 max_tokens = 3;
+  float temperature = 4;
+}
+
+message Gpt4CompletionResponse {
+  string id = 1;
+  string object = 2;
+  int64 created = 3;
+  repeated Gpt4Choice choices = 4;
+  Gpt4Usage usage = 5;
+}
+
+message Gpt4Choice {
+  string text = 1;
+  int32 index = 2;
+  repeated float logprobs = 3;
+  string finish_reason = 4;
+}
+
+message Gpt4Usage {
+  int32 prompt_tokens = 1;
+  int32 completion_tokens = 2;
+  int32 total_tokens = 3;
 }

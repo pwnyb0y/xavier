@@ -70,7 +70,6 @@ func (s *OpenAIServiceServer) GetModels(ctx context.Context, req *pb.GetModelsRe
 		return nil, err
 	}
 
-	log.Printf("Response body: %v", string(body))
 	var openAIResponse OpenAIModelsResponse
 	err = json.Unmarshal(body, &openAIResponse)
 	if err != nil {

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/zencodinglab/xavier/cmd/server/openai"
 	"log"
 	"net"
 
+	"github.com/zencodinglab/xavier/cmd/server/openai"
 	pb "github.com/zencodinglab/xavier/gen/go/proto/xavier/v1/openai"
 	"google.golang.org/grpc"
 )
