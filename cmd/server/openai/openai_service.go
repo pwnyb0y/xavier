@@ -71,44 +71,15 @@ func (s *OpenAIServiceServer) GetModels(ctx context.Context, req *pb.GetModelsRe
 		return nil, err
 	}
 
-	var openAIResponse OpenAIModelsResponse
-	err = json.Unmarshal(body, &openAIResponse)
+	var openaiResponse *pb.OpenAIGetModelsResponse
+	err = json.Unmarshal(body, &openaiResponse)
 	if err != nil {
 		log.Printf("failed to unmarshal response body: %v", err)
 		return nil, err
 	}
 
-	var models []*pb.Model
-	for _, model := range openAIResponse.Data {
-		var permissions []*pb.Permission
-		for _, perm := range model.Permission {
-			permissions = append(permissions, &pb.Permission{
-				Id:                 perm.ID,
-				Object:             perm.Object,
-				Created:            perm.Created,
-				AllowCreateEngine:  perm.AllowCreateEngine,
-				AllowSampling:      perm.AllowSampling,
-				AllowLogprobs:      perm.AllowLogprobs,
-				AllowSearchIndices: perm.AllowSearchIndices,
-				AllowView:          perm.AllowView,
-				AllowFineTuning:    perm.AllowFineTuning,
-				Organization:       perm.Organization,
-				Group:              perm.Group,
-				IsBlocking:         perm.IsBlocking,
-			})
-		}
-		models = append(models, &pb.Model{
-			Id:          model.ID,
-			Object:      model.Object,
-			Created:     model.Created,
-			OwnedBy:     model.OwnedBy,
-			Permissions: permissions,
-			Root:        model.Root,
-			Parent:      model.Parent,
-		})
-	}
-
-	return &pb.GetModelsResponse{Models: models}, nil
+	response := &pb.GetModelsResponse{Models: openaiResponse.Data}
+	return response, nil
 }
 
 // OpenAICompletionResponse represents the structure of the response from the OpenAI completion API.
