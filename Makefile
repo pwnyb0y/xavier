@@ -4,6 +4,7 @@ GOBUILD := $(GO) build
 GOCLEAN := $(GO) clean
 GOTEST := $(GO) test
 GOGET := $(GO) get
+BUF := buf
 
 # Directories
 CMD_DIR := cmd
@@ -15,7 +16,7 @@ BIN_DIR := bin
 CLIENT_BINARY := $(BIN_DIR)/client
 SERVER_BINARY := $(BIN_DIR)/server
 
-.PHONY: all build test clean generate get-deps run-client run-server
+.PHONY: all build test clean generate get-deps run-client run-server buf-generate
 
 all: build
 
@@ -38,10 +39,6 @@ clean:
 	@$(GOCLEAN)
 	@rm -f $(CLIENT_BINARY) $(SERVER_BINARY)
 
-generate:
-	@echo "Generating Go code from protocol buffers..."
-	@cd $(PROTO_DIR) && protoc -I xavier/v1/ xavier/v1/xavier.proto --go_out=plugins=grpc:../$(GEN_DIR)
-
 get-deps:
 	@echo "Getting dependencies..."
 	@$(GOGET) ./...
@@ -53,6 +50,15 @@ run-client: build-client
 run-server: build-server
 	@echo "Running server..."
 	@$(SERVER_BINARY)
+
+buf-generate:
+	@echo "Installing buf dependencies..."
+	@$(BUF) mod update
+	@echo "Running buf generate..."
+	@$(BUF) generate
+	@echo "Getting Go dependencies..."
+	@$(GO) mod download
+	@$(GO) mod vendor
 
 tidy:
 	go mod tidy

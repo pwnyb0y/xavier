@@ -127,9 +127,9 @@ func getTargetFolderName(collection map[string]interface{}) string {
 }
 
 func main() {
-	collectionFile := flag.String("collection", defaultInputFile, "Path to the Postman collection JSON file")
-	outputLocation := flag.String("output", "", "Location to output the split collection. Defaults to the current directory")
-	targetFolder := flag.String("folder", "", "Name of the folder to extract. If not provided, the collection name is used")
+	collectionFile := flag.String("c", defaultInputFile, "Collection: Path to the Postman collection JSON file")
+	outputLocation := flag.String("o", "", "Output Location: Location to output the split collection. Defaults to the current directory")
+	targetFolder := flag.String("f", "", "Target Folder: Name of the folder to extract. If not provided, the collection name is used")
 	flag.Parse()
 
 	splitCollectionByFolder(*collectionFile, *outputLocation, *targetFolder)

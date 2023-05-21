@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"google.golang.org/grpc/credentials/insecure"
 	"log"
 
 	pb "github.com/zencodinglab/xavier/gen/go/proto/xavier/v1/openai"
@@ -15,30 +16,29 @@ const (
 
 func main() {
 	var prompt string
-	flag.StringVar(&prompt, "prompt", "", "Prompt for completion")
+	flag.StringVar(&prompt, "prompt", "why did the chicken cross the AI?", "Prompt for completion")
 	flag.Parse()
 
-	if prompt == "" {
-		log.Fatal("Prompt is required")
-	}
-
-	conn, err := grpc.Dial(serverAddress, grpc.WithInsecure())
+	conn, err := grpc.Dial(serverAddress, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to connect: %v", err)
 	}
-	defer conn.Close()
+	defer func() {
+		if err := conn.Close(); err != nil {
+			log.Fatalf("Failed to close connection: %v", err)
+		}
+	}()
 
 	client := pb.NewOpenAIClient(conn)
 
 	// Prepare the request
 	req := &pb.CompletionRequest{
-		Model:       "davinci:ft-personal-2023-03-23-00-00-32",
+		Model:       "text-davinci-003",
 		Prompt:      prompt,
-		MaxTokens:   10,
+		MaxTokens:   100,
 		Temperature: 0.7,
 	}
 
-	// Call the Completion method
 	resp, err := client.Completion(context.Background(), req)
 	if err != nil {
 		log.Fatalf("Failed to call Completion: %v", err)

@@ -71,53 +71,15 @@ func (s *OpenAIServiceServer) GetModels(ctx context.Context, req *pb.GetModelsRe
 		return nil, err
 	}
 
-	var openAIResponse OpenAIModelsResponse
-	err = json.Unmarshal(body, &openAIResponse)
+	var openaiResponse *pb.OpenAIGetModelsResponse
+	err = json.Unmarshal(body, &openaiResponse)
 	if err != nil {
 		log.Printf("failed to unmarshal response body: %v", err)
 		return nil, err
 	}
 
-	var models []*pb.Model
-	for _, model := range openAIResponse.Data {
-		var permissions []*pb.Permission
-		for _, perm := range model.Permission {
-			permissions = append(permissions, &pb.Permission{
-				Id:                 perm.ID,
-				Object:             perm.Object,
-				Created:            perm.Created,
-				AllowCreateEngine:  perm.AllowCreateEngine,
-				AllowSampling:      perm.AllowSampling,
-				AllowLogprobs:      perm.AllowLogprobs,
-				AllowSearchIndices: perm.AllowSearchIndices,
-				AllowView:          perm.AllowView,
-				AllowFineTuning:    perm.AllowFineTuning,
-				Organization:       perm.Organization,
-				Group:              perm.Group,
-				IsBlocking:         perm.IsBlocking,
-			})
-		}
-		models = append(models, &pb.Model{
-			Id:          model.ID,
-			Object:      model.Object,
-			Created:     model.Created,
-			OwnedBy:     model.OwnedBy,
-			Permissions: permissions,
-			Root:        model.Root,
-			Parent:      model.Parent,
-		})
-	}
-
-	return &pb.GetModelsResponse{Models: models}, nil
-}
-
-// OpenAICompletionResponse represents the structure of the response from the OpenAI completion API.
-type OpenAICompletionResponse struct {
-	ID      string                `json:"id"`
-	Object  string                `json:"object"`
-	Created int64                 `json:"created"`
-	Choices []pb.CompletionChoice `json:"choices"`
-	Usage   pb.CompletionUsage    `json:"usage"`
+	response := &pb.GetModelsResponse{Models: openaiResponse.Data}
+	return response, nil
 }
 
 // Completion reaches out to the OpenAI API and performs a GPT-4 completion.
@@ -157,34 +119,13 @@ func (s *OpenAIServiceServer) Completion(ctx context.Context, req *pb.Completion
 		return nil, err
 	}
 
-	var completionResponse OpenAICompletionResponse
+	log.Printf("respBody: %v", string(respBody))
+	var completionResponse *pb.CompletionResponse
 	err = json.Unmarshal(respBody, &completionResponse)
 	if err != nil {
 		log.Printf("failed to unmarshal response body: %v", err)
 		return nil, err
 	}
 
-	var choices []*pb.CompletionChoice
-	for _, choice := range completionResponse.Choices {
-		choices = append(choices, &pb.CompletionChoice{
-			Text:         choice.Text,
-			Index:        choice.Index,
-			Logprobs:     choice.Logprobs,
-			FinishReason: choice.FinishReason,
-		})
-	}
-
-	usage := &pb.CompletionUsage{
-		PromptTokens:     completionResponse.Usage.PromptTokens,
-		CompletionTokens: completionResponse.Usage.CompletionTokens,
-		TotalTokens:      completionResponse.Usage.TotalTokens,
-	}
-
-	return &pb.CompletionResponse{
-		Id:      completionResponse.ID,
-		Object:  completionResponse.Object,
-		Created: completionResponse.Created,
-		Choices: choices,
-		Usage:   usage,
-	}, nil
+	return completionResponse, nil
 }
