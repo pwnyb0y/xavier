@@ -16,32 +16,6 @@ type OpenAIServiceServer struct {
 	*pb.UnimplementedOpenAIServer
 }
 
-// OpenAIModelsResponse represents the structure of the response from the OpenAI API.
-type OpenAIModelsResponse struct {
-	Data []struct {
-		ID         string `json:"id"`
-		Object     string `json:"object"`
-		Created    int64  `json:"created"`
-		OwnedBy    string `json:"owned_by"`
-		Permission []struct {
-			ID                 string `json:"id"`
-			Object             string `json:"object"`
-			Created            int64  `json:"created"`
-			AllowCreateEngine  bool   `json:"allow_create_engine"`
-			AllowSampling      bool   `json:"allow_sampling"`
-			AllowLogprobs      bool   `json:"allow_logprobs"`
-			AllowSearchIndices bool   `json:"allow_search_indices"`
-			AllowView          bool   `json:"allow_view"`
-			AllowFineTuning    bool   `json:"allow_fine_tuning"`
-			Organization       string `json:"organization"`
-			Group              string `json:"group"`
-			IsBlocking         bool   `json:"is_blocking"`
-		} `json:"permission"`
-		Root   string `json:"root"`
-		Parent string `json:"parent"`
-	} `json:"data"`
-}
-
 // GetModels reaches out to the OpenAI API and gets a list of all available models.
 func (s *OpenAIServiceServer) GetModels(ctx context.Context, req *pb.GetModelsRequest) (*pb.GetModelsResponse, error) {
 	log.Printf("Received request: %v", req)
