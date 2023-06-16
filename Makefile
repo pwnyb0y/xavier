@@ -16,7 +16,20 @@ BIN_DIR := bin
 CLIENT_BINARY := $(BIN_DIR)/client
 SERVER_BINARY := $(BIN_DIR)/server
 
-.PHONY: all build test clean generate get-deps run-client run-server buf-generate
+.PHONY: install all build test clean generate get-deps run-client run-server buf-generate
+
+install:
+	@$(if $(shell which brew), , /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)")
+
+	@echo "Installing Buf..."
+	@$(if $(shell which buf), , brew install buf)
+
+	@echo "Setting up project dependencies..."
+	buf mod update
+
+	@echo "Generating Go code..."
+	@make buf-generate
+
 
 all: build
 
